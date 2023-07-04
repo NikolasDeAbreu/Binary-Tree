@@ -1,0 +1,65 @@
+class NodoArvore:
+    def __init__(self, chave=None, esquerda=None, direita=None):
+        self.key = chave
+        self.left = esquerda
+        self.right = direita
+
+    def __repr__(self):
+        return '%s <- %s -> %s' % (self.left and self.left.key,
+                                    self.key,
+                                    self.right and self.right.key)
+
+    def inserir(self,valor,aux=None):
+        if self.key is None:
+            self.key = valor
+        else:
+            if valor < self.key:
+                if self.left is None:
+                    NovoNodo = NodoArvore(valor)
+                    self.left = NovoNodo
+                else:
+                    aux = self.left
+                    aux.inserir(valor)
+            else:
+                if self.right is None:
+                    NovoNodo = NodoArvore(valor)
+                    self.right = NovoNodo
+                else:
+                    aux = self.right
+                    aux.inserir(valor)
+
+    def min(self, min=None,h=None):
+        if min is None:
+            min = self.key
+            h = 1
+        elif min > self.key:
+            min = self.key
+        if self.left is not None:
+            return self.left.min(min,h+1)
+        else:
+            return h
+
+    def max(self, max=None,h=None):
+        if max is None:
+            max = self.key
+            h = 1
+        elif self.key > max:
+            max = self.key
+        if self.right is not None:
+            return self.right.max(max,h+1)
+        else:
+            return h
+
+    def height(self):
+        h_min = self.min()
+        h_max = self.max()
+        if h_min >= h_max:
+            print("A altura da árvore é %d nodos." % h_min)
+        elif h_min <= h_max:
+            print("A altura da árvore é %d nodos" % h_max)
+
+valores = [4,1,0,2,6,5,7,-555]
+a = NodoArvore()
+for itr in valores:
+    a.inserir(itr)
+a.height()
