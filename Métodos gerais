@@ -1,0 +1,102 @@
+class NodoArvore:
+    def __init__(self, chave=None, esquerda=None, direita=None):
+        self.key = chave
+        self.left = esquerda
+        self.right = direita
+
+    def __repr__(self):
+        return '%s <- %s -> %s' % (self.left and self.left.key,
+                                    self.key,
+                                    self.right and self.right.key)
+
+    def inserir(self,valor,aux=None):
+        if self.key is None:
+            self.key = valor
+        else:
+            if valor < self.key:
+                if self.left is None:
+                    NovoNodo = NodoArvore(valor)
+                    self.left = NovoNodo
+                else:
+                    aux = self.left
+                    aux.inserir(valor)
+            else:
+                if self.right is None:
+                    NovoNodo = NodoArvore(valor)
+                    self.right = NovoNodo
+                else:
+                    aux = self.right
+                    aux.inserir(valor)
+
+    def Order(self):
+        if self.left is not None:
+            self.left.Order()
+            if self.right is not None:
+                print(self.key)
+                self.right.Order()
+        else:
+            if self.right is not None:
+                print(self.key)
+                self.right.Order()
+            else:
+                print(self.key)
+
+    def preOrder(self):
+        print(self.key)
+        if self.left is not None:
+            self.left.preOrder()
+            if self.right is not None:
+                self.right.preOrder()
+        else:
+            if self.right is not None:
+                self.right.preOrder()
+
+    def postOrder(self):
+        if self.left is not None:
+            self.left.postOrder()
+            if self.right is not None:
+                self.right.postOrder()
+                print(self.key)
+            else:
+                print(self.key)
+        else:
+            if self.right is not None:
+                self.right.postOrder()
+                print(self.key)
+            else:
+                print(self.key)
+
+    def search(self,valor):
+        if valor == self.key:
+            return True
+        elif valor < self.key:
+            if self.left is not None:
+                return self.left.search(valor)
+            else:
+                return False
+        else:
+            if self.right is not None:
+                return self.right.search(valor)
+            else:
+                return False
+
+    def min(self,min=None):
+        if min is None:
+            min = self.key
+        elif min > self.key:
+            min = self.key
+        if self.left is not None:
+            return self.left.min(min)
+        else:
+            return min
+
+    def max(self,max=None):
+        if max is None:
+            max = self.key
+        elif self.key > max:
+            max = self.key
+        if self.right is not None:
+            return self.right.max(max)
+        else:
+            return max
+
